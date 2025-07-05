@@ -1,0 +1,963 @@
+{% load static %}
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>الملف الشخصي</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --primary-color: #0D69A0;
+      --secondary-color: #084265;
+      --accent-color: #B10000;
+      --light-bg: #f6f6f6;
+      --white: #ffffff;
+      --text-dark: #333333;
+      --text-light: #666666;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      direction: rtl;
+      background-color: var(--light-bg);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* Desktop Navigation */
+    .desktop-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 80px;
+      background: var(--primary-color);
+      padding: 0 5%;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-circle {
+      background-color: var(--white);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-circle img {
+      width: 35px;
+      height: 35px;
+      object-fit: contain;
+    }
+
+    .brand-name {
+      color: var(--white);
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .desktop-menu {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    .desktop-menu li a {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 8px 15px;
+      border-radius: 20px;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .desktop-menu li a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .desktop-menu li a.active {
+      background-color: var(--white);
+      color: var(--primary-color);
+    }
+
+    /* Mobile Navigation */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: var(--white);
+      box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .mobile-menu {
+      display: flex;
+      justify-content: space-around;
+      list-style: none;
+      padding: 10px 0;
+    }
+
+    .mobile-menu li a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 8px 15px;
+      border-radius: 15px;
+      transition: var(--transition);
+    }
+
+    .mobile-menu li a.active {
+      color: var(--primary-color);
+      background: rgba(13, 105, 160, 0.1);
+    }
+
+    .mobile-menu li a i {
+      font-size: 1.4rem;
+      margin-bottom: 5px;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .welcome-section {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      color: var(--white);
+      box-shadow: var(--shadow);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome-section h1 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+
+    .welcome-section p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 25px;
+    }
+
+    /* Profile Section */
+    .profile-container {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    @media (max-width: 768px) {
+      .profile-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .profile-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+      height: 100%;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .profile-picture {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-left: 20px;
+      border: 3px solid var(--primary-color);
+    }
+
+    .profile-picture img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-picture i {
+      font-size: 3rem;
+      color: var(--text-light);
+    }
+
+    .profile-info h2 {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      margin-bottom: 5px;
+    }
+
+    .profile-info p {
+      color: var(--text-light);
+      font-size: 1.1rem;
+    }
+
+    .profile-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat-item {
+      background: rgba(13, 105, 160, 0.05);
+      border-radius: 15px;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      color: var(--text-light);
+    }
+
+    .profile-details {
+      margin-top: 25px;
+    }
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .detail-item:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .detail-value {
+      color: var(--text-light);
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      font-weight: 700;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(13, 105, 160, 0.1);
+    }
+
+    /* Academic Info */
+    .academic-info {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .info-card {
+      background: rgba(13, 105, 160, 0.05);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .info-card h3 {
+      color: var(--primary-color);
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+    }
+
+    .info-card p {
+      color: var(--text-light);
+      font-size: 1.1rem;
+    }
+
+    /* Settings Section */
+    .settings-container {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      border-color: var(--primary-color);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(13, 105, 160, 0.1);
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--primary-color);
+      color: var(--white);
+      border: none;
+      border-radius: 15px;
+      padding: 14px 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 10px rgba(13, 105, 160, 0.3);
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: var(--secondary-color);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(13, 105, 160, 0.4);
+    }
+
+    .btn i {
+      margin-left: 8px;
+    }
+
+    .btn-block {
+      display: block;
+      width: 100%;
+    }
+
+    /* Saved Plans */
+    .saved-plan {
+      background: rgba(13, 105, 160, 0.05);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 15px;
+      transition: var(--transition);
+    }
+
+    .saved-plan:hover {
+      background: rgba(13, 105, 160, 0.1);
+    }
+
+    .plan-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .plan-header h4 {
+      color: var(--primary-color);
+      font-size: 1.2rem;
+    }
+
+    .plan-date {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    .plan-details {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 15px;
+      color: var(--text-light);
+    }
+
+    .plan-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .plan-actions .btn {
+      padding: 8px 15px;
+      font-size: 0.9rem;
+    }
+
+    .btn-view {
+      background: var(--primary-color);
+    }
+
+    .btn-delete {
+      background: var(--accent-color);
+    }
+
+    .no-plans {
+      text-align: center;
+      color: var(--text-light);
+      padding: 20px;
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 80px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      background: var(--primary-color);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      text-decoration: none;
+      box-shadow: var(--shadow);
+      z-index: 999;
+      transition: var(--transition);
+      display: none;
+    }
+
+    .back-to-top:hover {
+      background: var(--secondary-color);
+      transform: translateY(-3px);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .desktop-nav {
+        padding: 0 3%;
+      }
+      
+      .desktop-menu {
+        gap: 15px;
+      }
+      
+      .desktop-menu li a {
+        font-size: 1rem;
+        padding: 6px 12px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .back-to-top {
+        bottom: 120px; /* Increased from 70px to 120px */
+        left: 15px;
+        width: 45px;
+        height: 45px;
+      }
+
+      .desktop-nav {
+        display: none;
+      }
+      
+      .mobile-nav {
+        display: block;
+      }
+      
+      .welcome-section {
+        padding: 25px 20px;
+        margin-top: 20px;
+      }
+      
+      .welcome-section h1 {
+        font-size: 1.5rem;
+      }
+      
+      .welcome-section p {
+        font-size: 1.1rem;
+      }
+      
+      .profile-card, .academic-info, .settings-container {
+        padding: 25px 20px;
+      }
+      
+
+      .profile-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .profile-picture {
+        margin-left: 0;
+        margin-bottom: 15px;
+      }
+      
+      .plan-details {
+        flex-direction: column;
+        gap: 5px;
+      }
+      
+      .plan-actions {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .back-to-top {
+        bottom: 100px; /* Slightly lower on very small screens */
+      }
+
+      .container {
+        padding: 15px;
+      }
+      
+      .welcome-section {
+        padding: 20px 15px;
+      }
+      
+      .welcome-section h1 {
+        font-size: 1.4rem;
+      }
+      
+      .profile-card, .academic-info, .settings-container {
+        padding: 20px 15px;
+      }
+      
+      .mobile-menu li a {
+        font-size: 0.75rem;
+        padding: 6px 10px;
+      }
+      
+      .mobile-menu li a i {
+        font-size: 1.2rem;
+      }
+      
+      .profile-stats {
+        grid-template-columns: 1fr;
+      }
+      
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Desktop Navigation -->
+  <nav class="desktop-nav">
+    <div class="logo-container">
+      <div class="logo-circle">
+        <img src="{% static 'img/logo.jpg' %}" alt="Logo">
+      </div>
+      <div class="brand-name">المسار الذكي</div>
+    </div>
+    
+    <ul class="desktop-menu">
+      <li><a href="{% url 'Home' %}"><i class="fas fa-home"></i> الرئيسية</a></li>
+      <li><a href="{% url 'MyAcademicPath' %}?id={{ student_id }}"><i class="fas fa-route"></i> مساري الأكاديمي</a></li>
+      <li><a href="{% url 'Profile' %}" class="active"><i class="fas fa-user"></i> الملف الشخصي</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <section class="welcome-section">
+      <h1>مرحباً في ملفك الشخصي</h1>
+      <p>هنا يمكنك إدارة معلوماتك الشخصية والأكاديمية</p>
+    </section>
+    
+    <div class="profile-container">
+      <!-- Profile Card -->
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="profile-picture">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="profile-info">
+            <h2>{{ full_name }}</h2>
+            <p>{{ specialization }}</p>
+          </div>
+        </div>
+        
+        <div class="profile-stats">
+          <div class="stat-item">
+            <div class="stat-value">{{ gpa }}</div>
+            <div class="stat-label">المعدل التراكمي</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{ completed_credits }}</div>
+            <div class="stat-label">الوحدات المكتملة</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{ completed_terms }}</div>
+            <div class="stat-label">الفصول الدراسية</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{ required_credits }}</div>
+            <div class="stat-label">الوحدات المطلوبة</div>
+          </div>
+        </div>
+        
+        <div class="profile-details">
+          <h3 class="section-title">المعلومات الشخصية</h3>
+          <div class="detail-item">
+            <span class="detail-label">الاسم الكامل:</span>
+            <span class="detail-value">{{ full_name }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">رقم الطالب:</span>
+            <span class="detail-value">{{ student_number }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">البريد الإلكتروني:</span>
+            <span class="detail-value">{{ email }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">رقم الجوال:</span>
+            <span class="detail-value">{{ mobile }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">تاريخ الميلاد:</span>
+            <span class="detail-value">{{ birthdate }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Academic Info -->
+      <div class="profile-card">
+        <h3 class="section-title">المعلومات الأكاديمية</h3>
+        
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>الكلية</h3>
+            <p>{{ college }}</p>
+          </div>
+          <div class="info-card">
+            <h3>القسم</h3>
+            <p>{{ department }}</p>
+          </div>
+          <div class="info-card">
+            <h3>المرحلة الدراسية</h3>
+            <p>{{ academic_level }}</p>
+          </div>
+          <div class="info-card">
+            <h3>تاريخ الالتحاق</h3>
+            <p>{{ start_date }}</p>
+          </div>
+          <div class="info-card">
+            <h3>تاريخ التخرج المتوقع</h3>
+            <p>{{ expected_graduation }}</p>
+          </div>
+        </div>
+        
+        <div class="academic-progress" style="margin-top: 30px;">
+          <h3 class="section-title">تقدم الخطة الدراسية</h3>
+          <div style="background: rgba(13, 105, 160, 0.1); height: 20px; border-radius: 10px; margin: 15px 0; overflow: hidden;">
+            <div style="background: var(--primary-color); width: {{ progress_percent }}%; height: 100%; border-radius: 10px;"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span>{{ progress_percent }}% مكتمل</span>
+            <span>{{ completed_credits }} / {{ required_credits }} وحدة</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Settings Section -->
+    <div class="settings-container">
+      <h3 class="section-title">إعدادات الحساب</h3>
+      
+      <div class="form-group">
+        <label for="current-password">كلمة المرور الحالية</label>
+        <input type="password" id="current-password" class="form-control" placeholder="أدخل كلمة المرور الحالية">
+      </div>
+      
+      <div class="form-group">
+        <label for="new-password">كلمة المرور الجديدة</label>
+        <input type="password" id="new-password" class="form-control" placeholder="أدخل كلمة المرور الجديدة">
+      </div>
+      
+      <div class="form-group">
+        <label for="confirm-password">تأكيد كلمة المرور</label>
+        <input type="password" id="confirm-password" class="form-control" placeholder="أكد كلمة المرور الجديدة">
+      </div>
+      
+      <div class="form-group">
+        <label for="phone">رقم الجوال</label>
+        <input type="tel" id="phone" class="form-control" placeholder="أدخل رقم الجوال الجديد" value="{{ mobile }}">
+      </div>
+      
+      <div class="form-group">
+        <label for="email">البريد الإلكتروني</label>
+        <input type="email" id="email" class="form-control" placeholder="أدخل البريد الإلكتروني الجديد" value="{{ email }}">
+      </div>
+      
+      <button class="btn btn-block">
+        <i class="fas fa-save"></i> حفظ التغييرات
+      </button>
+    </div>
+
+    <!-- Saved Plans Section -->
+    <div class="settings-container" style="margin-top: 30px;">
+      <h3 class="section-title">الخطط المحفوظة</h3>
+      
+      <div id="saved-plans-container">
+        {% if saved_plans %}
+          {% for plan in saved_plans %}
+          <div class="saved-plan">
+            <div class="plan-header">
+              <h4>{{ plan.plan_name }}</h4>
+              <span class="plan-date">{{ plan.created_at|date:"Y-m-d" }}</span>
+            </div>
+            <p class="plan-details">
+              <span>التخصص: {{ plan.department_name }}</span>
+              <span>الهدف: {{ plan.goal }}</span>
+              <span>المدة: {{ plan.duration }} فصول</span>
+            </p>
+            <div class="plan-actions">
+              <button class="btn btn-view" data-id="{{ plan.id }}">
+                <i class="fas fa-eye"></i> عرض الخطة
+              </button>
+              <button class="btn btn-delete" data-id="{{ plan.id }}">
+                <i class="fas fa-trash"></i> حذف
+              </button>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p class="no-plans">لا توجد خطط محفوظة</p>
+        {% endif %}
+      </div>
+      
+      <button id="save-current-plan" class="btn" style="margin-top: 20px;">
+        <i class="fas fa-save"></i> حفظ الخطة الحالية
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <nav class="mobile-nav">
+    <ul class="mobile-menu">
+      <li><a href="{% url 'Home' %}"><i class="fas fa-home"></i> الرئيسية</a></li>
+      <li><a href="{% url 'MyAcademicPath' %}?id={{ student_id }}"><i class="fas fa-route"></i> مساري</a></li>
+      <li><a href="#" class="active"><i class="fas fa-user"></i> الملف</a></li>
+    </ul>
+  </nav>
+
+  <!-- Back to Top Button -->
+  <a href="#" class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+  </a>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Back to top functionality
+      const backToTopBtn = document.querySelector('.back-to-top');
+      
+      window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+          backToTopBtn.style.display = 'flex';
+        } else {
+          backToTopBtn.style.display = 'none';
+        }
+      });
+      
+      backToTopBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+      
+      // Mobile navigation active state
+      const mobileLinks = document.querySelectorAll('.mobile-menu a');
+      
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          mobileLinks.forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+      
+      // Form validation
+      const form = document.querySelector('.settings-container');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          const newPassword = document.getElementById('new-password').value;
+          const confirmPassword = document.getElementById('confirm-password').value;
+          
+          if (newPassword && newPassword !== confirmPassword) {
+            alert('كلمات المرور غير متطابقة!');
+            return;
+          }
+          
+          // Simulate saving changes
+          alert('تم حفظ التغييرات بنجاح!');
+        });
+      }
+
+      // Save current plan functionality
+      const savePlanBtn = document.getElementById('save-current-plan');
+      if (savePlanBtn) {
+        savePlanBtn.addEventListener('click', function() {
+          const planName = prompt('أدخل اسم للخطة:');
+          if (planName) {
+            // Get CSRF token
+            const csrftoken = getCookie('csrftoken');
+            
+            // Send to server to save
+            fetch('{% url "save_plan" %}', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+              },
+              body: JSON.stringify({
+                name: planName,
+                student_id: '{{ student_id }}'
+              })
+            })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              return response.json();
+            })
+            .then(data => {
+              if (data.success) {
+                alert('تم حفظ الخطة بنجاح!');
+                location.reload();
+              } else {
+                alert('حدث خطأ أثناء حفظ الخطة: ' + (data.error || ''));
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('حدث خطأ في الاتصال بالخادم');
+            });
+          }
+        });
+      }
+      
+      // Plan actions
+      document.querySelectorAll('.btn-view').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const planId = this.dataset.id;
+          // Implement view plan functionality
+          alert(`عرض الخطة ${planId}`);
+          // In a real app, you would redirect to a plan view page
+          // window.location.href = `/view-plan/${planId}/`;
+        });
+      });
+      
+      document.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.addEventListener('click', function() {
+          if (confirm('هل أنت متأكد من حذف هذه الخطة؟')) {
+            const planId = this.dataset.id;
+            const csrftoken = getCookie('csrftoken');
+            
+            fetch(`{% url 'delete_plan' %}?id=${planId}`, {
+              method: 'DELETE',
+              headers: {
+                'X-CSRFToken': csrftoken
+              }
+            })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              return response.json();
+            })
+            .then(data => {
+              if (data.success) {
+                this.closest('.saved-plan').remove();
+                if (document.querySelectorAll('.saved-plan').length === 0) {
+                  document.getElementById('saved-plans-container').innerHTML = 
+                    '<p class="no-plans">لا توجد خطط محفوظة</p>';
+                }
+              } else {
+                alert('حدث خطأ أثناء الحذف: ' + (data.error || ''));
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('حدث خطأ في الاتصال بالخادم');
+            });
+          }
+        });
+      });
+      
+      // Helper function to get CSRF token
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,944 @@
+{% load static %}
+{% load custom_tags %}  
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>مساري الأكاديمي</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --primary-color: #0D69A0;
+      --secondary-color: #084265;
+      --accent-color: #B10000;
+      --light-bg: #f6f6f6;
+      --white: #ffffff;
+      --text-dark: #333333;
+      --text-light: #666666;
+      --completed-color: #4CAF50;
+      --failed-color: #f44336;
+      --planned-color: #2196F3;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      direction: rtl;
+      background-color: var(--light-bg);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* Department Selection Section */
+    .department-selection {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    
+    .department-selection h2 {
+      color: var(--primary-color);
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+    }
+    
+    .department-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .dept-button {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      min-width: 200px;
+      font-size: 1.1rem;
+    }
+    
+    .dept-button:hover {
+      background: var(--secondary-color);
+      transform: translateY(-3px);
+    }
+    
+    /* Disabled Goal Buttons */
+    .goal-button.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Desktop Navigation */
+    .desktop-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 80px;
+      background: var(--primary-color);
+      padding: 0 5%;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-circle {
+      background-color: var(--white);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-circle img {
+      width: 35px;
+      height: 35px;
+      object-fit: contain;
+    }
+
+    .brand-name {
+      color: var(--white);
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .desktop-menu {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    .desktop-menu li a {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 8px 15px;
+      border-radius: 20px;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .desktop-menu li a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .desktop-menu li a.active {
+      background-color: var(--white);
+      color: var(--primary-color);
+    }
+
+    /* Mobile Navigation */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: var(--white);
+      box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .mobile-menu {
+      display: flex;
+      justify-content: space-around;
+      list-style: none;
+      padding: 10px 0;
+    }
+
+    .mobile-menu li a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 8px 15px;
+      border-radius: 15px;
+      transition: var(--transition);
+    }
+
+    .mobile-menu li a.active {
+      color: var(--primary-color);
+      background: rgba(13, 105, 160, 0.1);
+    }
+
+    .mobile-menu li a i {
+      font-size: 1.4rem;
+      margin-bottom: 5px;
+    }
+
+    /* Progress Section */
+    .progress-section {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 25px;
+      margin: 0 auto 30px;
+      box-shadow: var(--shadow);
+      max-width: 1200px;
+    }
+
+    .progress-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .progress-card {
+      background: rgba(13, 105, 160, 0.05);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .progress-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress-card i {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 15px;
+    }
+
+    .progress-card h3 {
+      color: var(--secondary-color);
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    .progress-card p {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .path-header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      color: var(--white);
+      box-shadow: var(--shadow);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .path-header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+
+    /* Course Status Colors */
+    .course-item {
+      background: rgba(13, 105, 160, 0.05);
+      border: 1px solid rgba(13, 105, 160, 0.1);
+      color: #1565C0;
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .course-item.failed {
+      background: rgba(244, 67, 54, 0.1) !important;
+      border: 1px solid rgba(244, 67, 54, 0.3) !important;
+      color: #C62828 !important;
+    }
+
+    .course-item:hover {
+      transform: translateY(-3px);
+    }
+
+    /* Goal Selection */
+    .goal-selection {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .goal-title {
+      font-size: 1.4rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .goal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 15px;
+    }
+
+    .goal-button {
+      flex: 1;
+      max-width: 200px;
+      padding: 15px;
+      border: 2px solid var(--primary-color);
+      background-color: var(--white);
+      color: var(--primary-color);
+      font-weight: 700;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 1.1rem;
+    }
+
+    .goal-button:hover {
+      background-color: rgba(13, 105, 160, 0.1);
+    }
+
+    .goal-button.active {
+      background-color: var(--primary-color);
+      color: var(--white);
+      box-shadow: 0 4px 10px rgba(13, 105, 160, 0.3);
+    }
+
+
+    /* Semester List */
+    .semester-container {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .semester-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .semester-title {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+
+    .semester-subtitle {
+      color: var(--text-light);
+      font-size: 1.1rem;
+      margin-top: 5px;
+    }
+
+    .semester-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .semester-card {
+      background: rgba(13, 105, 160, 0.05);
+      border-radius: 15px;
+      padding: 20px;
+      border: 1px solid rgba(13, 105, 160, 0.1);
+    }
+
+    .semester-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eef2f6;
+    }
+
+    .semester-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+
+    .semester-status {
+      background: var(--completed-color);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 15px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    /* Term Credit Summary */
+    .term-summary {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0;
+        padding: 8px 12px;
+        background-color: #eef2f6;
+        border-radius: 8px;
+        font-weight: 600;
+        border: 1px solid rgba(13, 105, 160, 0.1);
+    }
+    .term-credits, .cumulative-credits {
+        display: flex;
+        align-items: center;
+    }
+    .term-credits i, .cumulative-credits i {
+        margin-left: 5px;
+    }
+
+    .courses-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 15px;
+    }
+
+    /* Loading Overlay */
+    #loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .loading-spinner {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #0D69A0;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: 1.5rem;
+      color: #0D69A0;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 80px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      background: var(--primary-color);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      text-decoration: none;
+      box-shadow: var(--shadow);
+      z-index: 999;
+      transition: var(--transition);
+      display: none;
+    }
+
+    .back-to-top:hover {
+      background: var(--secondary-color);
+      transform: translateY(-3px);
+    }
+
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .desktop-nav {
+        padding: 0 3%;
+      }
+      
+      .desktop-menu {
+        gap: 15px;
+      }
+      
+      .desktop-menu li a {
+        font-size: 1rem;
+        padding: 6px 12px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .back-to-top {
+        bottom: 120px; /* Increased from 70px to 120px */
+        left: 15px;
+        width: 45px;
+        height: 45px;
+      }
+  
+      .desktop-nav {
+        display: none;
+      }
+      
+      .mobile-nav {
+        display: block;
+      }
+      
+      .path-header, .goal-selection, .semester-container, .department-selection {
+        padding: 25px 20px;
+        margin-top: 20px;
+      }
+      
+      .path-header h1 {
+        font-size: 1.5rem;
+      }
+      
+      .goal-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .goal-button {
+        max-width: 100%;
+        width: 100%;
+      }
+      
+      .courses-list {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      }
+      
+      .back-to-top {
+        bottom: 70px;
+        left: 15px;
+        width: 45px;
+        height: 45px;
+      }
+      
+      .dept-button {
+        min-width: 100%;
+        width: 100%;
+      }
+      
+      .modal-content {
+        margin: 20% 15px;
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+
+      /* Optional: Adjust for very small screens */
+      .back-to-top {
+        bottom: 100px; /* Slightly lower on very small screens */
+      }
+      
+      .container {
+        padding: 15px;
+      }
+      
+      .path-header, .goal-selection, .semester-container, .department-selection {
+        padding: 20px 15px;
+      }
+      
+      .path-header h1 {
+        font-size: 1.4rem;
+      }
+      
+      .courses-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      
+      .semester-card-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+      
+      .mobile-menu li a {
+        font-size: 0.75rem;
+        padding: 6px 10px;
+      }
+      
+      .mobile-menu li a i {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" style="display: {% if loading %}flex{% else %}none{% endif %};">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">جاري إنشاء المسار الأكاديمي، الرجاء الانتظار...</div>
+  </div>
+
+  <!-- Desktop Navigation -->
+  <nav class="desktop-nav">
+    <div class="logo-container">
+      <div class="logo-circle">
+        <img src="{% static 'img/logo.jpg' %}" alt="Logo">
+      </div>
+      <div class="brand-name">المسار الذكي</div>
+    </div>
+    
+    <ul class="desktop-menu">
+      <li><a href="{% url 'Home' %}"><i class="fas fa-home"></i> الرئيسية</a></li>
+      <li><a href="{% url 'MyAcademicPath' %}?id={{ student_id }}" class="active"><i class="fas fa-route"></i> مساري الأكاديمي</a></li>
+      <li><a href="{% url 'Profile' %}?id={{ student_id }}"><i class="fas fa-user"></i> الملف الشخصي</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <section class="path-header">
+      <h1>مساري الأكاديمي</h1>
+      {% if chosen_department %}
+        <p>التخصص المختار: {{ department_names|get_item:chosen_department }}</p>
+      {% endif %}
+    </section>
+    
+    <!-- Progress Section -->
+    <section class="progress-section">
+      <div class="progress-cards">
+        <div class="progress-card">
+          <i class="fas fa-book-open"></i>
+          <h3>الوحدات المنجزة</h3>
+          <p>{{ completed_credits }} وحدة</p>
+        </div>
+        <div class="progress-card">
+          <i class="fas fa-flag-checkered"></i>
+          <h3>المستوى الأكاديمي</h3>
+          <p>{{ academic_level }}</p>
+        </div>
+        <div class="progress-card">
+          <i class="fas fa-star"></i>
+          <h3>المعدل التراكمي</h3>
+          <p>{{ gpa|floatformat:2 }}</p>
+        </div>
+        <div class="progress-card">
+          <i class="fas fa-graduation-cap"></i>
+          <h3>الفصول المتبقية</h3>
+          <p>{{ remaining_terms }} فصول</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Department Selection -->
+    {% if show_department_selection %}
+    <section class="department-selection">
+      <h2>اختر التخصص المناسب</h2>
+      <p>يمكنك اختيار أحد التخصصات التالية:</p>
+      
+      <div class="department-buttons">
+        {% for dept in available_departments %}
+          <button class="dept-button" data-dept="{{ dept }}">
+            {{ department_names|get_item:dept }}
+          </button>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+    
+    <!-- Goal Selection -->
+    <section class="goal-selection">
+      <h2 class="goal-title">اختر هدفك الدراسي</h2>
+      <div class="goal-buttons">
+        <button class="goal-button {% if goal == 'gpa-goal' %}active{% endif %} {% if not  chosen_department %}disabled{% endif %}" 
+                id="gpa-goal">تحسين المعدل</button>
+        <button class="goal-button {% if goal == 'fast-grad' %}active{% endif %} {% if not  chosen_department %}disabled{% endif %}" 
+                id="fast-grad">تخرج سريع</button>
+      </div>
+    </section>
+    
+    {% if message_to_user %}
+    <section class="semester-container">
+      <div class="semester-header">
+        <h2 class="semester-title" style="color: var(--primary-color);">{{ message_to_user }}</h2>
+      </div>
+    </section>
+    
+    {% elif goal and chosen_department %}
+    <section class="semester-container">
+      <div class="semester-header">
+        <h2 class="semester-title">بناءً على هدفك هذا هو مسارك الأسرع:</h2>
+        <p class="semester-subtitle">(للتخصص: {{ department_names|get_item:chosen_department }})</p>
+      </div>
+      
+      <div class="semester-list">
+        <!-- Completed Terms -->
+        {% for term in completed_terms %}
+        <div class="semester-card">
+          <div class="semester-card-header">
+            <div class="semester-name">الفصل {{ term.number }}</div>
+            <div class="semester-status">تم انجازه</div>
+          </div>
+          
+          <!-- Term Credit Summary -->
+          <div class="term-summary">
+            <div class="term-credits">
+              <i class="fas fa-book"></i>
+              وحدات الفصل: {{ term.term_credits }}
+            </div>
+            <div class="cumulative-credits">
+              <i class="fas fa-chart-line"></i>
+              التراكمي: {{ term.cumulative_credits }}
+            </div>
+          </div>
+          
+          <div class="courses-list">
+            {% for course in term.courses %}
+              <div class="course-item {% if course.status == 'failed' %}failed{% endif %}">
+                {{ course.name }}
+              </div>
+            {% empty %}
+              <div class="course-item">لا توجد مواد</div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+        
+        <!-- Future Terms -->
+        {% for term in future_terms %}
+        <div class="semester-card planned">
+          <div class="semester-card-header">
+            <div class="semester-name">الفصل {{ term.number}} (المقترح)</div>
+          </div>
+          
+          <!-- Term Credit Summary -->
+          <div class="term-summary">
+            <div class="term-credits">
+              <i class="fas fa-book"></i>
+             وحدات الفصل: {{ term.term_credits }}
+            </div>
+            <div class="cumulative-credits">
+              <i class="fas fa-chart-line"></i>
+              التراكمي: {{ term.cumulative_credits }}
+            </div>
+          </div>
+          
+          <div class="courses-list">
+            {% for course in term.courses %}
+              <div class="course-item">  
+                {{ course.name }}
+              </div>
+            {% empty %}
+              <div class="course-item">لا توجد مواد مقترحة</div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    
+    {% elif chosen_department %}
+    <section class="semester-container">
+      <div class="semester-header">
+        <h2 class="semester-title">الرجاء اختيار هدف دراسي لرؤية المسار الأكاديمي</h2>
+        <p class="semester-subtitle">حدد هدفك من الخيارات أعلاه</p>
+      </div>
+    </section>
+    
+    {% elif not is_specialized and not chosen_department %}
+    <section class="semester-container">
+      <div class="semester-header">
+        <h2 class="semester-title">الرجاء اختيار التخصص أولاً لرؤية المسار الأكاديمي</h2>
+        <p class="semester-subtitle">اختر التخصص من الخيارات أعلاه</p>
+      </div>
+    </section>
+    {% endif %}
+    
+    {% if error %}
+    <section class="semester-container">
+      <div class="semester-header">
+        <h2 class="semester-title" style="color: var(--failed-color);">خطأ في إنشاء المسار</h2>
+        <p class="semester-subtitle">{{ error }}</p>
+      </div>
+    </section>
+    {% endif %}
+  </div>
+
+  <!-- Mobile Navigation -->
+  <nav class="mobile-nav">
+    <ul class="mobile-menu">
+      <li><a href="{% url 'Home' %}"><i class="fas fa-home"></i> الرئيسية</a></li>
+      <li><a href="{% url 'MyAcademicPath' %}?id={{ student_id }}" class="active"><i class="fas fa-route"></i> مساري</a></li>
+      <li><a href="#"><i class="fas fa-user"></i> الملف</a></li>
+    </ul>
+  </nav>
+
+  <!-- Back to Top Button -->
+  <a href="#" class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+  </a>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Goal selection functionality
+      const gpaBtn = document.getElementById('gpa-goal');
+      const fastGradBtn = document.getElementById('fast-grad');
+      const studentId = "{{ student_id }}";
+      const loadingOverlay = document.getElementById('loading-overlay');
+      const isSpecialized = {{ is_specialized|yesno:'true,false' }};
+      const chosenDepartment = "{{ chosen_department }}";
+
+      // Get all department buttons
+      const deptButtons = document.querySelectorAll('.dept-button');
+      
+      // Handle department button clicks
+      deptButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const deptCode = this.dataset.dept;
+          saveDepartmentChoice(deptCode);
+        });
+      });
+      
+      // Save department choice function
+      function saveDepartmentChoice(deptCode) {
+        const formData = new FormData();
+        formData.append('department', deptCode);
+        formData.append('student_id', studentId);
+        
+        // Show loading overlay
+        loadingOverlay.style.display = 'flex';
+        
+        fetch("{% url 'save_department' %}", {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+          },
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if(data.status === 'success') {
+            // Reload to apply the department selection
+            location.reload();
+          } else {
+            console.error('Failed to save department:', data.message);
+            alert('حدث خطأ أثناء حفظ التخصص: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Network error:', error);
+          alert('حدث خطأ في الشبكة: ' + error.message);
+        })
+        .finally(() => {
+          // Hide loading overlay regardless of outcome
+          loadingOverlay.style.display = 'none';
+        });
+      }
+      
+      // Function to handle goal button clicks
+      function handleGoalClick(goalType) {
+        if (!studentId) return;
+
+        // Only allow click if specialized or a department is chosen
+        if (isSpecialized || chosenDepartment) {
+          loadingOverlay.style.display = 'flex';
+          window.location.href = window.location.pathname + '?id=' + studentId + '&goal=' + goalType;
+        } else {
+          alert('الرجاء اختيار التخصص أولاً قبل تحديد الهدف.');
+        }
+      }
+
+      // GPA Goal Button
+      gpaBtn.addEventListener('click', function() {
+        handleGoalClick('gpa-goal');
+      });
+      
+      // Fast Graduation Button
+      fastGradBtn.addEventListener('click', function() {
+        handleGoalClick('fast-grad');
+      });
+      
+      // Back to top functionality
+      const backToTopBtn = document.querySelector('.back-to-top');
+      
+      window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+          backToTopBtn.style.display = 'flex';
+        } else {
+          backToTopBtn.style.display = 'none';
+        }
+      });
+      
+      backToTopBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+      
+      // Mobile navigation active state
+      const mobileLinks = document.querySelectorAll('.mobile-menu a');
+      
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          mobileLinks.forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+      
+      // Function to get CSRF cookie
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+    });
+  </script>
+</body>
+</html>

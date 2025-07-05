@@ -1,0 +1,309 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
+    
+    body {
+      background: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      direction: rtl;
+    }
+    
+    .login-container {
+      width: 100%;
+      max-width: 420px;
+      background: #0D69A0;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+    
+    .login-header {
+      background: #0D69A0;
+      padding: 2.5rem 0 3.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .login-header h1 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .login-form {
+      padding: 2.5rem 2rem;
+      background: #ffffff;
+    }
+    
+    .form-group {
+      margin-bottom: 1.8rem;
+      position: relative;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.8rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #084265;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      background: #f8fafc;
+      color: #0f172a;
+      font-family: 'Cairo', sans-serif;
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: #0D69A0;
+      box-shadow: 0 0 0 3px rgba(13, 105, 160, 0.15);
+      background: #ffffff;
+    }
+    
+    .forgot-password {
+      display: block;
+      text-align: left;
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      color: #0d69a0;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    
+    .forgot-password:hover {
+      text-decoration: underline;
+    }
+    
+    .login-button {
+      width: 100%;
+      background: #0D69A0;
+      color: white;
+      font-weight: 700;
+      padding: 1.1rem;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 12px;
+      margin-top: 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(13, 105, 160, 0.3);
+    }
+    
+    .login-button:hover {
+      background: #0b5a8a;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(13, 105, 160, 0.35);
+    }
+    
+    .signup-section {
+      text-align: center;
+      margin-top: 2.2rem;
+      font-size: 1.05rem;
+      color: #084265;
+      font-weight: 600;
+      padding-top: 1.5rem;
+      border-top: 1px solid #f1f5f9;
+    }
+    
+    .signup-link {
+      color: #B10000;
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+    
+    .signup-link:hover {
+      text-decoration: underline;
+    }
+    
+    .error-message {
+      color: #ff6b6b;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      font-weight: 600;
+      text-align: right;
+      display: block;
+    }
+    
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      animation: slideIn 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
+    }
+    
+    .error {
+      background: #ff6b6b;
+    }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .login-container {
+        max-width: 100%;
+        border-radius: 12px;
+      }
+      
+      .login-header {
+        padding: 2rem 0 3rem;
+      }
+      
+      .login-header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .login-form {
+        padding: 1.8rem 1.5rem;
+      }
+      
+      .form-group label {
+        font-size: 1rem;
+      }
+      
+      .form-control {
+        padding: 0.9rem 1.1rem;
+      }
+      
+      .login-button {
+        padding: 1rem;
+        font-size: 1.1rem;
+      }
+      
+      .signup-section {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Error notification -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="notification error">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+  
+  <div class="login-container">
+    <div class="login-header">
+      <h1>تسجيل الدخول</h1>
+    </div>
+    
+    <form class="login-form" method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="student-id">رقم القيد</label>
+        <input type="text" id="student-id" name="student-id" class="form-control" 
+               placeholder="أدخل رقم القيد" 
+               value="{{ student_id_value|default_if_none:'' }}">
+        {% if error_student_id %}
+          <span class="error-message">{{ error_student_id }}</span>
+        {% endif %}
+      </div>
+      
+      <div class="form-group">
+        <label for="password">كلمة السر</label>
+        <input type="password" id="password" name="password" class="form-control" 
+               placeholder="أدخل كلمة السر"
+               value="{{ password_value|default_if_none:'' }}">
+        <a href="#" class="forgot-password">هل نسيت كلمة السر؟</a>
+      </div>
+      
+      <button type="submit" class="login-button">الدخول</button>
+      
+      <div class="signup-section">
+        <span>لا تمتلك حساباً؟</span>
+        <a href="{% url 'SignUp' %}" class="signup-link">قم بالتسجيل</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Form interaction animations
+    document.querySelectorAll('.form-control').forEach(input => {
+      input.addEventListener('focus', function() {
+        this.style.background = '#ffffff';
+        this.style.boxShadow = '0 0 0 3px rgba(13, 105, 160, 0.15)';
+      });
+      
+      input.addEventListener('blur', function() {
+        this.style.background = '#f8fafc';
+        this.style.boxShadow = 'none';
+      });
+    });
+    
+    // Button press effect
+    const loginButton = document.querySelector('.login-button');
+    loginButton.addEventListener('mousedown', () => {
+      loginButton.style.transform = 'translateY(1px)';
+      loginButton.style.boxShadow = '0 2px 6px rgba(13, 105, 160, 0.3)';
+    });
+    
+    loginButton.addEventListener('mouseup', () => {
+      loginButton.style.transform = 'translateY(-2px)';
+      loginButton.style.boxShadow = '0 6px 14px rgba(13, 105, 160, 0.35)';
+    });
+    
+    // Auto hide notifications after 3 seconds
+    setTimeout(() => {
+      const notifications = document.querySelectorAll('.notification');
+      notifications.forEach(notification => {
+        notification.style.display = 'none';
+      });
+    }, 3000);
+  </script>
+</body>
+</html>

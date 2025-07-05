@@ -1,0 +1,336 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل حساب جديد</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
+    
+    body {
+      background: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      direction: rtl;
+    }
+    
+    .signup-container {
+      width: 100%;
+      max-width: 450px;
+      background: #ffffff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .signup-header {
+      background: #0D69A0;
+      padding: 2.5rem 0;
+      text-align: center;
+      position: relative;
+    }
+    
+    .signup-header h1 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+    
+    .signup-form {
+      padding: 2.5rem 2rem;
+      background: #ffffff;
+    }
+    
+    .form-group {
+      margin-bottom: 1.8rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.8rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #084265;
+    }
+    
+    .optional-badge {
+      color: #B10000;
+      font-size: 0.8rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      margin-left: 8px;
+      float: left;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      background: #f8fafc;
+      color: #0f172a;
+      font-family: 'Cairo', sans-serif;
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: #0D69A0;
+      box-shadow: 0 0 0 3px rgba(13, 105, 160, 0.15);
+      background: #ffffff;
+    }
+    
+    .signup-button {
+      width: 100%;
+      background: #0D69A0;
+      color: white;
+      font-weight: 700;
+      padding: 1.1rem;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 12px;
+      margin-top: 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(13, 105, 160, 0.3);
+    }
+    
+    .signup-button:hover {
+      background: #0b5a8a;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(13, 105, 160, 0.35);
+    }
+    
+    .signup-button:active {
+      transform: translateY(1px);
+    }
+    
+    .login-section {
+      text-align: center;
+      margin-top: 2.2rem;
+      font-size: 1.05rem;
+      color: #475569;
+      font-weight: 600;
+      padding-top: 1.5rem;
+      border-top: 1px solid #f1f5f9;
+    }
+    
+    .login-link {
+      color: #B10000;
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+    
+    .login-link:hover {
+      text-decoration: underline;
+    }
+    
+    .error-message {
+      color: #d32f2f;
+      background-color: #ffebee;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      animation: shake 0.5s;
+      display: none;
+    }
+    
+    @keyframes shake {
+      0%, 100% {transform: translateX(0);}
+      20%, 60% {transform: translateX(-5px);}
+      40%, 80% {transform: translateX(5px);}
+    }
+    
+    @media (max-width: 480px) {
+      .signup-container {
+        max-width: 100%;
+        border-radius: 12px;
+      }
+      
+      .signup-header {
+        padding: 2rem 0;
+      }
+      
+      .signup-header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .signup-form {
+        padding: 1.8rem 1.5rem;
+      }
+      
+      .form-group label {
+        font-size: 1rem;
+      }
+      
+      .form-control {
+        padding: 0.9rem 1.1rem;
+      }
+      
+      .signup-button {
+        padding: 1rem;
+        font-size: 1.1rem;
+      }
+      
+      .login-section {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="signup-container">
+    <div class="signup-header">
+      <h1>حساب جديد</h1>
+    </div>
+    
+    <form method="post" class="signup-form" id="signupForm">
+      {% csrf_token %}
+      
+      <!-- رسائل الخطأ -->
+      <div class="error-message" id="errorContainer">
+        <i class="fas fa-exclamation-circle"></i> <span id="errorText"></span>
+      </div>
+      
+      <!-- Error Messages -->
+      {% if form.errors %}
+        <div class="form-group" style="color: #d32f2f; background-color: #ffebee; padding: 15px; border-radius: 12px; margin-bottom: 25px;">
+          {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          {% endfor %}
+        </div>
+      {% endif %}
+      
+      <!-- Student ID Field -->
+      <div class="form-group">
+        {{ form.student_id.label_tag }}
+        {{ form.student_id }}
+      </div>
+      
+      <!-- Email Field - now optional -->
+      <div class="form-group">
+        <label for="id_email">
+          <span class="optional-badge">*اختياري</span>
+          البريد الإلكتروني
+        </label>
+        {{ form.email }}
+      </div>
+      
+      <!-- Password Fields -->
+      <div class="form-group">
+        {{ form.password1.label_tag }}
+        {{ form.password1 }}
+      </div>
+      
+      <div class="form-group">
+        {{ form.password2.label_tag }}
+        {{ form.password2 }}
+      </div>
+      
+      <button type="submit" class="signup-button">التسجيل</button>
+      
+      <div class="login-section">
+        <span>لديك حساب؟</span>
+        <a href="{% url 'LogIn' %}" class="login-link">تسجيل الدخول</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Add Bootstrap-like validation
+    document.querySelectorAll('.form-control').forEach(input => {
+      input.addEventListener('input', function() {
+        if (this.value) {
+          this.classList.add('dirty');
+          document.getElementById('errorContainer').style.display = 'none';
+        } else {
+          this.classList.remove('dirty');
+        }
+      });
+    });
+
+    // Remove required attribute from email field
+    const emailField = document.getElementById('id_email');
+    if (emailField) {
+      emailField.required = false;
+    }
+    
+    // Function to show error message
+    function showError(message) {
+      const errorContainer = document.getElementById('errorContainer');
+      const errorText = document.getElementById('errorText');
+      errorText.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + message;
+      errorContainer.style.display = 'block';
+    }
+    
+    // Form validation
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      const studentId = document.getElementById('id_student_id');
+      const password1 = document.getElementById('id_password1');
+      const password2 = document.getElementById('id_password2');
+      
+      // Hide error container initially
+      document.getElementById('errorContainer').style.display = 'none';
+      
+      // Check if student ID is empty
+      if (!studentId.value.trim()) {
+        e.preventDefault();
+        showError('يرجى إدخال رقم الطالب');
+        studentId.focus();
+        return false;
+      }
+      
+      // Check if password1 is empty
+      if (!password1.value.trim()) {
+        e.preventDefault();
+        showError('يرجى إدخال كلمة المرور');
+        password1.focus();
+        return false;
+      }
+      
+      // Check if password2 is empty
+      if (!password2.value.trim()) {
+        e.preventDefault();
+        showError('يرجى تأكيد كلمة المرور');
+        password2.focus();
+        return false;
+      }
+      
+      // Check if passwords match
+      if (password1.value !== password2.value) {
+        e.preventDefault();
+        showError('كلمة السر غير متطابقة. الرجاء التأكد من تطابق كلمتي السر.');
+        password2.focus();
+        return false;
+      }
+      
+      // If all validations pass, form will submit
+      return true;
+    });
+  </script>
+</body>
+</html>

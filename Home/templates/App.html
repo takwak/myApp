@@ -1,0 +1,200 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تطبيق المسار الذكي</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0D69A0;
+            --secondary-color: #084265;
+            --white: #ffffff;
+            --light-blue: #e6f0f6;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .logo-container {
+            background-color: var(--white);
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .logo-container img {
+            width: 150px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .btn-custom {
+            padding: 16px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: var(--transition);
+            display: block;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: none;
+        }
+
+        .btn-login {
+            background-color: var(--white);
+            color: var(--primary-color);
+        }
+
+        .btn-login:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-signup {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-signup:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive design */
+        @media (min-width: 768px) {
+            body {
+                padding: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo-container {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .logo-container img {
+                width: 130px;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            p.subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .btn-custom {
+                padding: 14px 25px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            .logo-container {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .logo-container img {
+                width: 110px;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+            }
+            
+            p.subtitle {
+                font-size: 1rem;
+                margin-bottom: 30px;
+            }
+            
+            .btn-container {
+                gap: 15px;
+            }
+            
+            .btn-custom {
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main content -->
+    <div class="container">
+        <div class="logo-container">
+            <img src="{% static 'img/logo.jpg' %}" alt="شعار المسار الذكي">
+        </div>
+        <h2>مرحباً بك!</h2>
+        <p class="subtitle">في تطبيق المسار الذكي</p>
+        
+        <div class="btn-container">
+            <a href="{% url 'LogIn' %}" class="btn-custom btn-login">تسجيل دخول</a>
+            <a href="{% url 'SignUp' %}" class="btn-custom btn-signup">حساب جديد</a>
+        </div>
+    </div>
+</body>
+</html>
